@@ -14,11 +14,31 @@ class FacultyController extends Controller
     //Home page
     public function index()
     {
+        $attribute = Attribute::select('q_categories.name', 'attributes.points')
+                            -> join('q_categories', 'attributes.q_category_id', 'q_categories.id')
+                            -> where('attributes.faculty_id', '=', auth()->user()->id)
+                            -> get();
         $chart = new AttributeChart();
 
-        $chart->labels(['1', '2']);
-        $chart->dataset('one', 'bar', [1, 2, 3, 4, 5]);
-        $chart->dataset('two', 'bar', [1, 2, 3, 4, 5]);
+        $labels = [];
+        $points = [];
+        $count = 0;
+        foreach($attribute as $att)
+        {
+            $labels[$count] = $att->name; 
+            $points[$count] = $att->points;
+            $count++;
+        }
+        $chart->labels($labels);
+        $chart->dataset('Attributes', 'radar', $points);
+        $chart->options([
+            'pointBorderColor' => 'Blue',
+            'scales' => [
+                'r' => [
+                    'suggestedMin' => 1,
+                    'suggestedMax' => 100
+            ]]
+        ]);
 
         //get current department
         $depts = Faculty::select('department_id')
@@ -28,10 +48,7 @@ class FacultyController extends Controller
             $deptID = $dept->department_id;
 
         return view('faculty.index', [
-            'attribute' => Attribute::select('q_categories.name', 'attributes.points')
-                                    -> join('q_categories', 'attributes.q_category_id', 'q_categories.id')
-                                    -> where('attributes.faculty_id', '=', auth()->user()->id)
-                                    -> get(),
+            'attribute' => $attribute,
             'facs' => Faculty::select('user_id', 'name')
                             -> where('department_id', '=', $deptID)
                             -> whereNot('user_id', '=', auth()->user()->id)

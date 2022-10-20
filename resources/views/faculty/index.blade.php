@@ -1,6 +1,8 @@
 <x-layout>
     {{-- attribute table --}}
-    {!! $chart->container() !!}
+    <x-card style="width: 50%" class="items-center">
+        {!! $chart->container() !!}
+    </x-card>
     <table class="w-full table-auto rounded-sm">
         <tbody>
             @unless($attribute->isEmpty())
