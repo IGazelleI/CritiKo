@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QCategory;
 use App\Models\QType;
 use App\Models\Question;
+use App\Models\QCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
@@ -70,14 +71,14 @@ class QuestionController extends Controller
         ]);
     }
     //Show manage page by category
-    public function mByCat(QCategory $cat)
+    public function myCat(QCategory $cat)
     {
         return view('question.manage', [
             'category' => $cat->name,
             'question' => Question::select('questions.id', 'q_types.name as type', 'questions.sentence', 'questions.keyword', 'questions.type as answerer')
                     -> join('q_types', 'questions.q_type_id', 'q_types.id')
                     -> join('q_categories', 'questions.q_category_id', 'q_categories.id')
-                    -> where('Questions.q_category_id', '=', $cat->id)
+                    -> where('questions.q_category_id', '=', $cat->id)
                     -> latest('id')
                     -> get()
         ]);
@@ -122,15 +123,26 @@ class QuestionController extends Controller
     public function update(Request $request, Question $question)
     {
         $formFields = $request->validate([
+            'id' => 'required',
             'q_type_id' => 'required',
             'q_category_id' => 'required',
             'sentence' => 'required',
             'keyword' => 'required',
             'type' => 'required'
         ]);
-        dd(
-            $question->update($formFields));
 
+        DB::table('questions')
+                ->where ('id','=', $formFields ['id'])
+                ->update ([
+                    'id' => $formFields ['id'],
+                    'q_type_id' => $formFields['q_type_id'],
+                    'q_category_id' => $formFields['q_category_id'],
+                    'sentence' => $formFields['sentence'],
+                    'keyword' => $formFields['keyword'],
+                    'type' => $formFields['type'],
+                    'updated_at' => NOW()
+                ]);
+        //$question->update($formFields);
         return redirect('/question')->with('message', 'Question updated.');
     }
     //Delete data

@@ -1,0 +1,268 @@
+[1mdiff --git a/app/Charts/AttributeChart.php b/app/Charts/AttributeChart.php[m
+[1mdeleted file mode 100644[m
+[1mindex b40a4a3..0000000[m
+[1m--- a/app/Charts/AttributeChart.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,18 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Charts;[m
+[31m-[m
+[31m-use ConsoleTVs\Charts\Classes\Chartjs\Chart;[m
+[31m-[m
+[31m-class AttributeChart extends Chart[m
+[31m-{[m
+[31m-    /**[m
+[31m-     * Initializes the chart.[m
+[31m-     *[m
+[31m-     * @return void[m
+[31m-     */[m
+[31m-    public function __construct()[m
+[31m-    {[m
+[31m-        parent::__construct();[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/app/Http/Controllers/FacultyController.php b/app/Http/Controllers/FacultyController.php[m
+[1mindex d9d9ce2..b1430ff 100644[m
+[1m--- a/app/Http/Controllers/FacultyController.php[m
+[1m+++ b/app/Http/Controllers/FacultyController.php[m
+[36m@@ -7,19 +7,12 @@[m
+ use App\Models\Attribute;[m
+ use App\Models\Evaluation;[m
+ use Illuminate\Http\Request;[m
+[31m-use App\Charts\AttributeChart;[m
+ [m
+ class FacultyController extends Controller[m
+ {[m
+     //Home page[m
+     public function index()[m
+     {[m
+[31m-        $chart = new AttributeChart();[m
+[31m-[m
+[31m-        $chart->labels(['1', '2']);[m
+[31m-        $chart->dataset('one', 'bar', [1, 2, 3, 4, 5]);[m
+[31m-        $chart->dataset('two', 'bar', [1, 2, 3, 4, 5]);[m
+[31m-[m
+         //get current department[m
+         $depts = Faculty::select('department_id')[m
+                         -> where('user_id', '=', auth()->user()->id)[m
+[36m@@ -39,8 +32,7 @@[m [mpublic function index()[m
+             'status' => Evaluation::select('evaluatee')[m
+                             -> where('evaluator', '=', auth()->user()->id)[m
+                             -> groupBy('evaluatee')[m
+[31m-                            -> get(),[m
+[31m-            'chart' => $chart[m
+[32m+[m[32m                            -> get()[m[41m [m
+         ]);[m
+     }[m
+     //Show evaluate form[m
+[1mdiff --git a/app/Http/Controllers/QuestionController.php b/app/Http/Controllers/QuestionController.php[m
+[1mindex 4d2f8f9..ce1d8bd 100644[m
+[1m--- a/app/Http/Controllers/QuestionController.php[m
+[1m+++ b/app/Http/Controllers/QuestionController.php[m
+[36m@@ -2,10 +2,11 @@[m
+ [m
+ namespace App\Http\Controllers;[m
+ [m
+[31m-use App\Models\QCategory;[m
+ use App\Models\QType;[m
+ use App\Models\Question;[m
+[32m+[m[32muse App\Models\QCategory;[m
+ use Illuminate\Http\Request;[m
+[32m+[m[32muse Illuminate\Support\Facades\DB;[m
+ [m
+ class QuestionController extends Controller[m
+ {[m
+[36m@@ -122,15 +123,25 @@[m [mpublic function edit(Question $question)[m
+     public function update(Request $request, Question $question)[m
+     {[m
+         $formFields = $request->validate([[m
+[32m+[m[32m            'id' => 'required',[m
+             'q_type_id' => 'required',[m
+             'q_category_id' => 'required',[m
+             'sentence' => 'required',[m
+             'keyword' => 'required',[m
+             'type' => 'required'[m
+         ]);[m
+[31m-        dd([m
+[31m-            $question->update($formFields));[m
+[31m-[m
+[32m+[m[32m        DB::table('questions')[m
+[32m+[m[32m                ->where ('id','=', $formFields ['id'])[m
+[32m+[m[32m                ->update ([[m
+[32m+[m[32m                    'id' => $formFields ['id'],[m
+[32m+[m[32m                    'q_type_id' => $formFields['q_type_id'],[m
+[32m+[m[32m                    'q_category_id' => $formFields['q_category_id'],[m
+[32m+[m[32m                    'sentence' => $formFields['sentence'],[m
+[32m+[m[32m                    'keyword' => $formFields['keyword'],[m
+[32m+[m[32m                    'type' => $formFields['type'],[m
+[32m+[m[32m                    'updated_at' => NOW()[m
+[32m+[m[32m                ]);[m
+[32m+[m[32m        //$question->update($formFields);[m
+         return redirect('/question')->with('message', 'Question updated.');[m
+     }[m
+     //Delete data[m
+[1mdiff --git a/database/seeders/DatabaseSeeder.php b/database/seeders/DatabaseSeeder.php[m
+[1mindex c894e08..fd0ff82 100644[m
+[1m--- a/database/seeders/DatabaseSeeder.php[m
+[1m+++ b/database/seeders/DatabaseSeeder.php[m
+[36m@@ -25,9 +25,9 @@[m [mpublic function run()[m
+     {[m
+         User::factory()->create([[m
+             'type' => 1,[m
+[31m-            'name' => 'Gazelle',[m
+[31m-            'email' => 'cvamores15@gmail.com',[m
+[31m-            'password' => bcrypt('amores15')[m
+[32m+[m[32m            'name' => 'Admin',[m
+[32m+[m[32m            'email' => 'admin@gmail.com',[m
+[32m+[m[32m            'password' => bcrypt('admin')[m
+         ]);[m
+ [m
+         $departments = [[m
+[1mdiff --git a/resources/views/components/layout.blade.php b/resources/views/components/layout.blade.php[m
+[1mindex d360fad..e2a5c8b 100644[m
+[1m--- a/resources/views/components/layout.blade.php[m
+[1m+++ b/resources/views/components/layout.blade.php[m
+[36m@@ -14,7 +14,6 @@[m
+         />[m
+         <script src="//unpkg.com/alpinejs" defer></script>[m
+         <script src="https://cdn.tailwindcss.com"></script>[m
+[31m-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js"></script>[m
+         {{-- @vite('resources/css/app.css') --}}[m
+         <script src="./TW-ELEMENTS-PATH/dist/js/index.min.js"></script>[m
+         <script>[m
+[36m@@ -32,48 +31,32 @@[m
+     </head>[m
+     <body class="mb-48">[m
+         <nav class="flex justify-between items-center mb-4">[m
+[31m-            <a href="/"[m
+[31m-                ><img class="w-24" src="{{asset('images/logo.png')}}" alt="" class="logo"[m
+[31m-            /></a>[m
+[32m+[m[32m            <a href="/"><img class="w-24" src="{{asset('images/logo.png')}}" alt="" class="logo"/></a>[m
+             <ul class="flex space-x-6 mr-6 text-lg">[m
+                 @auth[m
+                     @if(auth()->user()->type == 'admin')[m
+                     <li>[m
+[31m-                        <a href="/department/manage" class="bg-blue hover:text-laravel"[m
+[31m-                            ></i> Department </a[m
+[31m-                        >[m
+[32m+[m[32m                        <a href="/department/manage" class="bg-blue hover:text-laravel"></i> Department </a>[m
+                     </li>[m
+                     <li>[m
+[31m-                        <a href="/course" class="hover:text-laravel"[m
+[31m-                            ></i> Course </a[m
+[31m-                        >[m
+[32m+[m[32m                        <a href="/course" class="hover:text-laravel"></i> Course </a>[m
+                     </li>[m
+                     <li>[m
+[31m-                        <a href="/subject" class="hover:text-laravel"[m
+[31m-                            ></i> Subject </a[m
+[31m-                        >[m
+[32m+[m[32m                        <a href="/subject" class="hover:text-laravel"></i> Subject </a>[m
+                     </li>[m
+                     <li>[m
+[31m-                        <a href="/block" class="hover:text-laravel"[m
+[31m-                            ></i> Block </a[m
+[31m-                        >[m
+[32m+[m[32m                        <a href="/block" class="hover:text-laravel"></i> Block </a>[m
+                     </li>[m
+                     <li>[m
+[31m-                        <a href="/register" class="hover:text-laravel"[m
+[31m-                            ><i class="fa-solid fa-user-plus"></i> Register</a[m
+[31m-                        >[m
+[32m+[m[32m                        <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> Register</a>[m
+                     </li>[m
+                     @elseif(auth()->user()->type == 'sast')[m
+                     <li>[m
+[31m-                        <a href="/question" class="bg-blue hover:text-laravel"[m
+[31m-                            ></i> Question </a[m
+[31m-                        >[m
+[32m+[m[32m                        <a href="/question" class="bg-blue hover:text-laravel"></i> Question </a>[m
+                     </li>[m
+                     @elseif(auth()->user()->type == 'student' || auth()->user()->type == 'faculty')[m
+                     <li>[m
+[31m-                        <a href="/{{auth()->user()->type}}/evaluate" class="bg-blue hover:text-laravel"[m
+[31m-                            ></i> Evaluate </a[m
+[31m-                        >[m
+[32m+[m[32m                        <a href="/{{auth()->user()->type}}/evaluate" class="bg-blue hover:text-laravel"></i> Evaluate </a>[m
+                     </li>[m
+                     @endif[m
+                     <li>[m
+[36m@@ -84,18 +67,14 @@[m
+                     <li>[m
+                         <form action="/logout" method="POST" class="inline">[m
+                             @csrf[m
+[31m-[m
+                             <button type="submit">[m
+[31m-                                <i class="fa-solid fa-door-closed"></i>   Logout[m
+[32m+[m[32m                                <i class="fa-solid fa-door-closed"></i>Logout[m
+                             </button>[m
+                         </form>[m
+                     </li>[m
+                 @else[m
+                     <li>[m
+[31m-                        <a href="/login" class="hover:text-laravel"[m
+[31m-                            ><i class="fa-solid fa-arrow-right-to-bracket"></i>[m
+[31m-                            Login</a[m
+[31m-                        >[m
+[32m+[m[32m                        <a href="/login" class="hover:text-laravel"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>[m
+                     </li>[m
+                 @endauth[m
+             </ul>[m
+[36m@@ -104,8 +83,7 @@[m
+             {{$slot}}[m
+         </main>[m
+         <footer[m
+[31m-            class="fixed bottom-0 left-0 w-full flex items-center justify-start font-bold bg-laravel text-white h-24 mt-24 opacity-90 md:justify-center"[m
+[31m-        >[m
+[32m+[m[32m            class="fixed bottom-0 left-0 w-full flex items-center justify-start font-bold bg-laravel text-white h-24 mt-24 opacity-90 md:justify-center">[m
+             <p class="ml-2">Copyright &copy; 2022, All Rights reserved</p>[m
+         </footer>[m
+         <x-flash-message/>[m
+[1mdiff --git a/resources/views/faculty/index.blade.php b/resources/views/faculty/index.blade.php[m
+[1mindex f510bef..c63b124 100644[m
+[1m--- a/resources/views/faculty/index.blade.php[m
+[1m+++ b/resources/views/faculty/index.blade.php[m
+[36m@@ -1,6 +1,5 @@[m
+ <x-layout>[m
+     {{-- attribute table --}}[m
+[31m-    {!! $chart->container() !!}[m
+     <table class="w-full table-auto rounded-sm">[m
+         <tbody>[m
+             @unless($attribute->isEmpty())[m
+[36m@@ -55,7 +54,6 @@[m
+         </tbody>[m
+     </table>[m
+ </x-layout>[m
+[31m-{!! $chart->script() !!}[m
+ @php[m
+     function checkStatus($status, $facultyID)[m
+     {[m
+[1mdiff --git a/resources/views/question/edit.blade.php b/resources/views/question/edit.blade.php[m
+[1mindex a96ae3e..e01a55a 100644[m
+[1m--- a/resources/views/question/edit.blade.php[m
+[1m+++ b/resources/views/question/edit.blade.php[m
+[36m@@ -10,6 +10,11 @@[m
+         <form action="/question" method="POST">[m
+             @csrf[m
+             @method('PUT')[m
+[32m+[m[32m            <input[m
+[32m+[m[32m                type="hidden"[m
+[32m+[m[32m                name="id"[m
+[32m+[m[32m                value= "{{$q->id}}"[m
+[32m+[m[32m            />[m
+             <div class="mb-6">[m
+                 <label for="q_type_id" class="inline-block text-lg mb-2">[m
+                     Type[m
+[1mdiff --git a/routes/web.php b/routes/web.php[m
+[1mindex 6ca2086..7f2a4d8 100644[m
+[1m--- a/routes/web.php[m
+[1m+++ b/routes/web.php[m
+[36m@@ -40,6 +40,7 @@[m
+ //Admin Routes[m
+ Route::middleware(['auth', 'user-access:admin'])->group(function ()[m
+ {[m
+[32m+[m[32m    //routes[m
+     //Show register form[m
+     Route::get('/register', [UserController::class, 'register']);[m
+     //Store user data[m
