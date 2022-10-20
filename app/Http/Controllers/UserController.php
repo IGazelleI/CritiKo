@@ -73,7 +73,7 @@ class UserController extends Controller
             }
         }
 
-        return redirect('/login')->with('message', 'User registered.');
+        return redirect('/admin')->with('message', 'User registered.');
     }
     //Show login form
     public function login()

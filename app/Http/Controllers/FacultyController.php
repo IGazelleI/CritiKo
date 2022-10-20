@@ -7,12 +7,19 @@ use App\Models\Question;
 use App\Models\Attribute;
 use App\Models\Evaluation;
 use Illuminate\Http\Request;
+use App\Charts\AttributeChart;
 
 class FacultyController extends Controller
 {
     //Home page
     public function index()
     {
+        $chart = new AttributeChart();
+
+        $chart->labels(['1', '2']);
+        $chart->dataset('one', 'bar', [1, 2, 3, 4, 5]);
+        $chart->dataset('two', 'bar', [1, 2, 3, 4, 5]);
+
         //get current department
         $depts = Faculty::select('department_id')
                         -> where('user_id', '=', auth()->user()->id)
@@ -32,7 +39,8 @@ class FacultyController extends Controller
             'status' => Evaluation::select('evaluatee')
                             -> where('evaluator', '=', auth()->user()->id)
                             -> groupBy('evaluatee')
-                            -> get() 
+                            -> get(),
+            'chart' => $chart
         ]);
     }
     //Show evaluate form

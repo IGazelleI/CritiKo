@@ -29,10 +29,6 @@ use App\Http\Controllers\FacultyController;
 Route::get('/', [UserController::class, 'home']);
 
 //User routes
-//Show register form
-Route::get('/register', [UserController::class, 'register'])->middleware('guest');
-//Store user data
-Route::post('/users', [UserController::class, 'store'])->middleware('guest');
 //Show login form
 Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
 //Authenticate user
@@ -44,6 +40,11 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 //Admin Routes
 Route::middleware(['auth', 'user-access:admin'])->group(function ()
 {
+    //Show register form
+    Route::get('/register', [UserController::class, 'register']);
+    //Store user data
+    Route::post('/users', [UserController::class, 'store']);
+
     //Department Routes
     Route::get('/admin', [AdminController::class, 'index']);
     //Show manage department page

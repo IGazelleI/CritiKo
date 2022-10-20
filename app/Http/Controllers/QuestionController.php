@@ -128,8 +128,8 @@ class QuestionController extends Controller
             'keyword' => 'required',
             'type' => 'required'
         ]);
-
-        $question->update($formFields);
+        dd(
+            $question->update($formFields));
 
         return redirect('/question')->with('message', 'Question updated.');
     }

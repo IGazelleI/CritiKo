@@ -14,6 +14,7 @@
         />
         <script src="//unpkg.com/alpinejs" defer></script>
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js"></script>
         {{-- @vite('resources/css/app.css') --}}
         <script src="./TW-ELEMENTS-PATH/dist/js/index.min.js"></script>
         <script>
@@ -57,6 +58,11 @@
                             ></i> Block </a
                         >
                     </li>
+                    <li>
+                        <a href="/register" class="hover:text-laravel"
+                            ><i class="fa-solid fa-user-plus"></i> Register</a
+                        >
+                    </li>
                     @elseif(auth()->user()->type == 'sast')
                     <li>
                         <a href="/question" class="bg-blue hover:text-laravel"
@@ -85,11 +91,6 @@
                         </form>
                     </li>
                 @else
-                    <li>
-                        <a href="/register" class="hover:text-laravel"
-                            ><i class="fa-solid fa-user-plus"></i> Register</a
-                        >
-                    </li>
                     <li>
                         <a href="/login" class="hover:text-laravel"
                             ><i class="fa-solid fa-arrow-right-to-bracket"></i>

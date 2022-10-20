@@ -1,5 +1,6 @@
 <x-layout>
     {{-- attribute table --}}
+    {!! $chart->container() !!}
     <table class="w-full table-auto rounded-sm">
         <tbody>
             @unless($attribute->isEmpty())
@@ -54,6 +55,7 @@
         </tbody>
     </table>
 </x-layout>
+{!! $chart->script() !!}
 @php
     function checkStatus($status, $facultyID)
     {
