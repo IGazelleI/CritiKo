@@ -40,10 +40,25 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 //Admin Routes
 Route::middleware(['auth', 'user-access:admin'])->group(function ()
 {
+    //Show manage user page
+    Route::get('/user/manage', [AdminController::class, 'manageUser']);
     //Show register form
     Route::get('/register', [UserController::class, 'register']);
     //Store user data
     Route::post('/users', [UserController::class, 'store']);
+
+    //Period Routes
+    //Show manage period page
+    Route::get('/period/manage', [DepartmentController::class, 'managePeriod']);
+    //Show add period form
+    Route::get('/period/add', [DepartmentController::class, 'addPeriod']);
+    //Store period data
+    Route::post('/period', [DepartmentController::class, 'storePeriod']);
+    //Shpw edit period form
+    Route::get('/period/{period}/edit', [DepartmentController::class, 'editPeriod']);
+    //Update period data
+    Route::put('/period/{period}', [DepartmentController::class, 'updatePeriod']);
+
 
     //Department Routes
     Route::get('/admin', [AdminController::class, 'index']);
@@ -188,6 +203,12 @@ Route::middleware(['auth', 'user-access:faculty'])->group(function()
     Route::get('/faculty', [FacultyController::class, 'index']);
     //Display evaluate faculty form
     Route::get('/faculty/evaluate', [FacultyController::class, 'evaluate']);
+
+    //Dean Routes
+    //Show enrollments
+    Route::get('/enrollments',[FacultyController::class, 'enrollments']);
+    //Enrollment action
+    Route::put('/enroll/{enroll}', [FacultyController::class, 'enrollmentAction']);
 });
 
 //Student Routes
@@ -199,4 +220,10 @@ Route::middleware(['auth', 'user-access:student'])->group(function()
     Route::get('/student/evaluate', [StudentController::class, 'evaluate']);
     //Store evaluation data
     Route::post('/student', [StudentController::class, 'store']);
+
+    //Enrollment routes
+    //Show enrollment form
+    Route::get('/enroll', [StudentController::class, 'enrollForm']);
+    //Store enrollment
+    Route::post('/enroll', [StudentController::class, 'enroll']);
 });

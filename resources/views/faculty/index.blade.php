@@ -3,32 +3,18 @@
     <x-card style="width: 50%" class="items-center">
         {!! $chart->container() !!}
     </x-card>
-    <table class="w-full table-auto rounded-sm">
-        <tbody>
-            @unless($attribute->isEmpty())
-            <tr class="border-gray-300">
-                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Attribute </th>
-                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Points </th>
-            </tr>
-            @foreach($attribute as $attri)
-            <tr class="border-gray-300">
-                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$attri->name}}
-                </td>
-                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$attri->points}}
-                </td>
-            </tr>
+    <x-card>
+        <h3>
+            Improve the following: <br/>
+        </h3>
+        <ul>
+            @foreach ($recommend as $key)
+                <li>
+                    {{$key->keyword}}
+                </li>
             @endforeach
-            @else
-            <tr class="border-gray-300">
-                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    Attributes is empty.
-                </td>
-            </tr>
-            @endunless
-        </tbody>
-    </table>
+        </ul>
+    </x-card>
     {{-- status table --}}
     <table class="w-full table-auto rounded-sm">
         <tbody>

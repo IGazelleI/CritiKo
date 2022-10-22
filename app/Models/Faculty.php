@@ -22,11 +22,6 @@ class Faculty extends Model
     {
         return $this->belongsTo(Department::class, 'department_id');
     }
-    //block relationship
-    public function blocks()
-    {
-        return $this->hasMany(Block::class, 'user_id');
-    }
     //attribute relationship
     public function attribute()
     {

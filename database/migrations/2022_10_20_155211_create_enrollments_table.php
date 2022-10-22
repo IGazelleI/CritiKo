@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blocks', function (Blueprint $table) {
+        Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
-            $table->integer('year_level');
-            $table->integer('section');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('period_id')->constrained()->onDelete('cascade');
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
+            $table->integer('year_level');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blocks');
+        Schema::dropIfExists('enrollments');
     }
 };

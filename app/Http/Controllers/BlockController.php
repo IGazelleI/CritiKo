@@ -17,8 +17,7 @@ class BlockController extends Controller
     public function main()
     {
         return view('block.main', [
-            'blocks' => Block::select('blocks.id', 'blocks.year_level', 'blocks.section', 'faculties.name as adviser', 'courses.abbre as course')
-                    -> join('faculties', 'blocks.user_id', 'faculties.user_id')
+            'blocks' => Block::select('blocks.id', 'blocks.year_level', 'blocks.section', 'courses.abbre as course')
                     -> join('courses', 'blocks.course_id', 'courses.id')
                     -> latest('blocks.id')
                     -> get()
@@ -31,8 +30,7 @@ class BlockController extends Controller
             'courses' => Course::select('id', 'name')
                     -> where('id', '=', $course)
                     -> get(),
-            'blocks' => Block::select('blocks.id', 'blocks.year_level', 'blocks.section', 'faculties.name as adviser')
-                    -> join('faculties', 'blocks.user_id', '=', 'faculties.user_id')
+            'blocks' => Block::select('blocks.id', 'blocks.year_level', 'blocks.section')
                     -> where('blocks.course_id', '=', $course)
                     -> get()
         ]);

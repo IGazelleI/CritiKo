@@ -39,6 +39,16 @@
                 @auth
                     @if(auth()->user()->type == 'admin')
                     <li>
+                        <a href="/user/manage" class="bg-blue hover:text-laravel"
+                            ></i> User </a
+                        >
+                    </li>
+                    <li>
+                        <a href="/period/manage" class="bg-blue hover:text-laravel"
+                            ></i> Period </a
+                        >
+                    </li>
+                    <li>
                         <a href="/department/manage" class="bg-blue hover:text-laravel"
                             ></i> Department </a
                         >
@@ -70,6 +80,19 @@
                         >
                     </li>
                     @elseif(auth()->user()->type == 'student' || auth()->user()->type == 'faculty')
+                    @if(auth()->user()->type == 'student')
+                    <li>
+                        <a href="/enroll" class="bg-blue hover:text-laravel"
+                            ></i> Enroll </a
+                        >
+                    </li>
+                    @elseif(auth()->user()->isDean())
+                    <li>
+                        <a href="/enrollments" class="bg-blue hover:text-laravel"
+                            ></i> Enrollments </a
+                        >
+                    </li>
+                    @endif
                     <li>
                         <a href="/{{auth()->user()->type}}/evaluate" class="bg-blue hover:text-laravel"
                             ></i> Evaluate </a
