@@ -1,5 +1,5 @@
 <x-layout>
-    <x-card class="max-w-lg mx-auto mt-24">
+    <x-card class="max-w-lg mx-auto mt-15 mb-20">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-1">
                 Register
