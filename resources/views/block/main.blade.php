@@ -14,7 +14,6 @@
                 <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> ID </th>
                 <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Year Level </th>
                 <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Section </th>
-                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Adviser </th>
                 <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Course </th>
                 <th  class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start" colspan="3"> Action </th>
             </tr>
@@ -28,9 +27,6 @@
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
                     {{$block->section}}
-                </td>
-                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$block->adviser}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
                     {{$block->course}}

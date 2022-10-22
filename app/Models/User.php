@@ -52,6 +52,17 @@ class User extends Authenticatable
             get: fn ($value) =>  ["", "admin", "sast", "faculty", 'student'][$value],
         );
     }
+    public function isDean()
+    {
+        $details = Faculty::select('isDean')
+                        -> where('user_id', '=', auth()->user()->id)
+                        -> get();
+
+        foreach($details as $dets)
+            $dean = $dets->isDean;
+
+        return $dean;
+    }
 
     //department relationship
     public function department()

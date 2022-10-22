@@ -1,54 +1,35 @@
 <x-layout>
     <header>
-        @foreach ($courses as $course)
-            @php
-                $c = $course;
-            @endphp            
-        @endforeach
         <h1 class="text-3xl text-center font-bold my-6 uppercase">
-            {{$c->name}} 
-            <br/>
-            Blocks
+            Users
         </h1>
-        <a href="/block/create/{{$c->id}}" class="bg-laravel text-white rounded mb-2 py-2 px-4 hover:bg-black">
-            New
-        </a>
-        <a href="/subject/manage/{{$c->id}}" class="bg-laravel text-white rounded mb-2 ml-2 py-2 px-4 hover:bg-black">
-            Subjects
-        </a>
     </header>
     <table class="w-full table-auto rounded-sm">
         <tbody>
-            @unless($blocks->isEmpty())
+            @unless($users->isEmpty())
             <tr class="border-gray-300">
                 <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> ID </th>
-                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Year Level </th>
-                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Section </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Type </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Name </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Date Created </th>
                 <th  class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start" colspan="3"> Action </th>
             </tr>
-            @foreach($blocks as $block)
+            @foreach($users as $user)
             <tr class="border-gray-300">
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$block->id}}
+                    {{$user->id}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$block->year_level}}
+                    {{$user->type}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$block->section}}
+                    {{$user->name}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <a href="/block/klase/manage/{{$block->id}}">
-                        <i class="fa-solid fa-search"></i>
-                    </a>
+                    {{date('M. d, Y @ g:i:s A', strToTime($user->created_at))}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <a href="/block/{{$block->id}}/edit">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                </td>
-                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <form action="/block/{{$block->id}}" method="POST">
+                    <form action="/user/{{$user->id}}" method="POST">
                         @csrf
                         @method('DELETE')
 
@@ -62,7 +43,7 @@
             @else
             <tr class="border-gray-300">
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    Block is empty.
+                    Period is empty.
                 </td>
             </tr>
             @endunless

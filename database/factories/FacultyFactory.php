@@ -18,6 +18,7 @@ class FacultyFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'isDean' => false
         ];
     }
 }

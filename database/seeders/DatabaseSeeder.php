@@ -4,12 +4,15 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
+use App\Models\Admin;
 use App\Models\Block;
 use App\Models\QType;
 use App\Models\Course;
+use App\Models\Period;
 use App\Models\Faculty;
 use App\Models\Subject;
 use App\Models\Question;
+use App\Models\Attribute;
 use App\Models\QCategory;
 use App\Models\Department;
 use Illuminate\Database\Seeder;
@@ -23,117 +26,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->create([
+        $admin = User::factory()->create([
             'type' => 1,
             'name' => 'Gazelle',
             'email' => 'cvamores15@gmail.com',
             'password' => bcrypt('amores15')
         ]);
 
-        $departments = [
-            [
-                'name' => 'College of Communication and Internet Computing Technology',
-                'abbre' => 'CCICT'
-            ],
-            [
-                'name' => 'College of ICT',
-                'abbre' => 'CCICT'
-            ],
-            [
-                'name' => 'College of Technology',
-                'abbre' => 'CoT'
-            ],
-            [
-                'name' => 'College of Engineering',
-                'abbre' => 'CoE'
-            ],
-            [                    
-                'name' => 'College of Education',
-                'abbre' => 'CoEd'
-            ]
-        ];
-
-        foreach($departments as $dept)
-            Department::create($dept);
-
-        /* //create one department
-        $dept = Department::factory()->create([
-            'name' => 'College of Communication and Internet Computing Technology',
-            'abbre' => 'CCICT'
-        ]); */
-
-        $faculty = [
-            [
-                'type' => 3,
-                'name' => 'Bell Campanilla',
-                'email' => 'bell@gmail.com',
-                'password' => bcrypt('amores15')
-            ],
-            [
-                'type' => 3,
-                'name' => 'Pet Andrew Nacua',
-                'email' => 'pet@gmail.com',
-                'password' => bcrypt('amores15')
-            ],
-            [
-                'type' => 3,
-                'name' => 'Noreen Fuentes',
-                'email' => 'noreen@gmail.com',
-                'password' => bcrypt('amores15')
-            ]
-        ];
-        foreach($faculty as $fac)
-        {
-            $user = User::factory()->create($fac);
-
-            if($user->type == 3)
-            {
-                Faculty::factory()->create([
-                    'name' => $user->name,
-                    'user_id' => $user->id,
-                    'department_id' => 1
-                ]);
-            }
-        }
-       /*  $users = User::create($faculty);
-
-        foreach($users as $user)
-        {
-            if($user->type == 3)
-            {
-                Faculty::factory()->create([
-                    'name' => $user->name,
-                    'user_id' => $user->id,
-                    'department_id' => 1
-                ]);
-            }
-        } */
-        /* //create five users only faculty
-        $users = User::factory(random_int(3, 4))->create([
-            'type' => 3
-        ]); */
-        //create faculty based on how much user type 3 was created
-        /* foreach($users as $user)
-        {
-            if($user->type == 3)
-            {
-                Faculty::factory()->create([
-                    'user_id' => $user->id,
-                    'department_id' => $dept->id
-                ]);
-            }
-        } */
-        //create four courses in one department
-        $course = Course::factory(random_int(1, 4))->create([
-            'department_id' => 1
+        Admin::create([
+            'user_id' => $admin->id
         ]);
-        //create random 1-3 subjects on each courses create
-        foreach($course as $c)
-        {
-            Subject::factory(random_int(1, 3))->create([
-                'course_id' => $c->id
-            ]);
-        }
 
         //Factory question types
         $qtype = [
@@ -164,8 +66,13 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Push'
             ]
         ];
-        foreach($qcat as $cat)
-            QCategory::create($cat);
+        $cats = [];
+        $i = 0;
+
+        foreach($qcat as $cat){
+            $cats[$i] = QCategory::create($cat);
+            $i++;
+        }
 
         //factory management questions
         $questions = [
@@ -312,5 +219,123 @@ class DatabaseSeeder extends Seeder
         ];
         foreach($questions as $q)
             Question::create($q);
+
+        $departments = [
+            [
+                'name' => 'College of Communication and Internet Computing Technology',
+                'abbre' => 'CCICT'
+            ],
+            [
+                'name' => 'College of ICT',
+                'abbre' => 'CCICT'
+            ],
+            [
+                'name' => 'College of Technology',
+                'abbre' => 'CoT'
+            ],
+            [
+                'name' => 'College of Engineering',
+                'abbre' => 'CoE'
+            ],
+            [                    
+                'name' => 'College of Education',
+                'abbre' => 'CoEd'
+            ]
+        ];
+
+        foreach($departments as $dept)
+            Department::create($dept);
+
+        /* //create one department
+        $dept = Department::factory()->create([
+            'name' => 'College of Communication and Internet Computing Technology',
+            'abbre' => 'CCICT'
+        ]); */
+
+        $faculty = [
+            [
+                'type' => 3,
+                'name' => 'Bell Campanilla',
+                'email' => 'bell@gmail.com',
+                'password' => bcrypt('amores15')
+            ],
+            [
+                'type' => 3,
+                'name' => 'Pet Andrew Nacua',
+                'email' => 'pet@gmail.com',
+                'password' => bcrypt('amores15')
+            ],
+            [
+                'type' => 3,
+                'name' => 'Noreen Fuentes',
+                'email' => 'noreen@gmail.com',
+                'password' => bcrypt('amores15')
+            ]
+        ];
+        foreach($faculty as $facs)
+        {
+            $user = User::factory()->create($facs);
+
+            if($user->type == 'faculty')
+            {
+                $fac = Faculty::factory()->create([
+                    'name' => $user->name,
+                    'user_id' => $user->id,
+                    'department_id' => 1
+                ]);
+                //create the attributes
+                foreach($cats as $cat)
+                {
+                    Attribute::create([
+                        'faculty_id' => $fac->user_id,
+                        'q_category_id' => $cat->id,
+                        'points' => random_int(20, 90)
+                    ]);
+                }
+            }
+        }
+       /*  $users = User::create($faculty);
+
+        foreach($users as $user)
+        {
+            if($user->type == 3)
+            {
+                Faculty::factory()->create([
+                    'name' => $user->name,
+                    'user_id' => $user->id,
+                    'department_id' => 1
+                ]);
+            }
+        } */
+        /* //create five users only faculty
+        $users = User::factory(random_int(3, 4))->create([
+            'type' => 3
+        ]); */
+        //create faculty based on how much user type 3 was created
+        /* foreach($users as $user)
+        {
+            if($user->type == 3)
+            {
+                Faculty::factory()->create([
+                    'user_id' => $user->id,
+                    'department_id' => $dept->id
+                ]);
+            }
+        } */
+        //create four courses in one department
+        $course = Course::factory(random_int(1, 4))->create([
+            'department_id' => 1
+        ]);
+        //create random 1-3 subjects on each courses create
+        foreach($course as $c)
+        {
+            Subject::factory(random_int(1, 3))->create([
+                'course_id' => $c->id
+            ]);
+        }
+        //create current period
+        Period::create([
+            'description' => '1st Semester 2022-2023'
+        ]);
     }
 }
