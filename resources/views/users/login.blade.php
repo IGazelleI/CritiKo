@@ -51,19 +51,13 @@
             <div class="mb-6">
                 <button
                     type="submit"
-                    class="bg-laravel text-white rounded py-2 px-4 hover:bg-black"
+                    class=" text-dark rounded py-2 px-4 hover:bg-black"
                 >
                     Login
                 </button>
             </div>
         
             <div class="mt-8">
-                <p>
-                    Don't have an account?
-                    <a href="/register" class="text-laravel"
-                        >Register</a
-                    >
-                </p>
             </div>
         </form>
     </x-card>
