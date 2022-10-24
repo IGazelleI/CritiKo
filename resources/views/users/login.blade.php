@@ -1,3 +1,4 @@
+<title> Login </title>
 <x-layout>
     <x-card>
         <header class="text-center">
@@ -51,7 +52,7 @@
             <div class="mb-6">
                 <button
                     type="submit"
-                    class=" text-dark rounded py-2 px-4 hover:bg-black"
+                    class="bg-white border-2 rounded py-2 px-4 hover:border-black"
                 >
                     Login
                 </button>

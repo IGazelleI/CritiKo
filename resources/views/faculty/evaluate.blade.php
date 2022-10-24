@@ -1,3 +1,4 @@
+<title> Evaluate Co-Faculty </title>
 <x-layout>
     @if(!$period['empty'])
         @if(isset($period->begin))

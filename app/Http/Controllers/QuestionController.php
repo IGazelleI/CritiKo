@@ -159,6 +159,7 @@ class QuestionController extends Controller
             'question' => Question::select('questions.id', 'q_types.name as type', 'q_categories.name as cat', 'questions.sentence', 'questions.keyword', 'questions.type as answerer')
                                 -> join('q_types', 'questions.q_type_id', 'q_types.id')
                                 -> join('q_categories', 'questions.q_category_id', 'q_categories.id')
+                                -> where('questions.answerer', '=', 4)
                                 -> orderBy('questions.q_category_id')
                                 -> get()
         ]);

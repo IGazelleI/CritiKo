@@ -1,3 +1,4 @@
+<title> ({{$c->name}}) Blocks </title>
 <x-layout>
     <header>
         @foreach ($courses as $course)

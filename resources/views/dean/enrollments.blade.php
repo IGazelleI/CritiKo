@@ -1,3 +1,4 @@
+<title> Enrollments </title>
 <x-layout>
     <header>
         <h1 class="text-3xl text-center font-bold my-6 uppercase">

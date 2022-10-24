@@ -15,7 +15,7 @@
         <script src="//unpkg.com/alpinejs" defer></script>
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js"></script>
-        @vite('resources/css/app.css')
+        {{-- @vite('resources/css/app.css') --}}
         <script src="./TW-ELEMENTS-PATH/dist/js/index.min.js"></script>
         <script>
             tailwind.config = {
@@ -33,7 +33,7 @@
     <body class="bg-gradient-to-l from-slate-100 to-slate-300 w-full h-full">
         <nav class="flex justify-between items-center mb-4">
             <a href="/"
-                ><img class="h-12 inline" src="" alt="Logo" class="logo"
+                ><img class="h-12 inline" src="{{asset('images/logo.png')}}" alt="Logo" class="logo"
             /></a>
             <ul class="flex space-x-6 mr-6 text-lg">
                 @auth

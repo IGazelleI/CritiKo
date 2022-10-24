@@ -1,3 +1,4 @@
+<title> {{auth()->user()->name}} </title>
 <x-layout>
     {{-- attribute table --}}
     <div class="grid grid-rows-1 grid-flow-col gap-4 justify-items-stretch">

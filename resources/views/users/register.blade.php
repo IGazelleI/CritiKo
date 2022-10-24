@@ -1,3 +1,4 @@
+<title> Register </title>
 <x-layout>
     <x-card class="max-w-lg mx-auto mt-15 mb-20">
         <header class="text-center">
