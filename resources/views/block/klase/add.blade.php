@@ -1,15 +1,16 @@
+<title> Add Class </title>
 <x-layout>
     <x-card class="p-10 max-w-lg mx-auto mt-24">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-1">
-                Add Subject
+                Add Class
             </h2>
             @foreach($blocks as $block)
                 @php
                     $b = $block;
                 @endphp
             @endforeach
-            <p class="mb-4">Add Subject to {{$b->course}} {{$b->year_level}} -  {{$b->section}}</p>
+            <p class="mb-4">Add Class to {{$b->course}} {{$b->year_level}} -  {{$b->section}}</p>
         </header>
 
         <form action="/block/klase" method="POST">

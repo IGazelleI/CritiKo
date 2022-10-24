@@ -1,53 +1,50 @@
-<title> Classes </title>
+<title> Periods </title>
 <x-layout>
     <header>
         <h1 class="text-3xl text-center font-bold my-6 uppercase">
-            @foreach ($blocks as $block)
-                @php 
-                    $b = $block;
-                @endphp
-            @endforeach
-            {{$b->course}} {{$b->year_level}} -  {{$b->section}} Subjects
+            Periods
         </h1>
-        <a href="/block/klase/add/{{$b->id}}" class="bg-laravel text-white rounded mb-2 py-2 px-4 hover:bg-black">
-            Add
-        </a>
-        <a href="/block/student/manage/{{$b->id}}" class="bg-laravel text-white rounded mb-2 ml-2 py-2 px-4 hover:bg-black">
-            Students
+        <a href="/period/add" class="bg-laravel text-white rounded py-2 px-4 hover:bg-black">
+            New
         </a>
     </header>
     <table class="w-full table-auto rounded-sm">
         <tbody>
-            @unless($klases->isEmpty())
+            @unless($periods->isEmpty())
             <tr class="border-gray-300">
                 <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> ID </th>
-                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Subject </th>
-                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Instructor </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Description </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Start Date </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> End Date </th>
                 <th  class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start" colspan="3"> Action </th>
             </tr>
-            @foreach($klases as $klase)
+            @foreach($periods as $period)
             <tr class="border-gray-300">
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$klase->id}}
+                    {{$period->id}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$klase->subject}}
+                    {{$period->description}}
+                </td><td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                    @if(isset($period->begin))
+                        {{date('M. d, Y @ D', strToTime($period->begin))}}
+                    @else
+                        Not set yet.
+                    @endif 
+                </td><td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                    @if(isset($period->begin))
+                        {{date('M. d, Y @ D', strToTime($period->end))}}
+                    @else
+                        Not set yet.
+                    @endif 
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$klase->instructor}}
-                </td>
-                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <a href="/block/klase/detail/manage/{{$klase->id}}">
-                        <i class="fa-solid fa-search"></i>
-                    </a>
-                </td>
-                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <a href="/block/klase/{{$klase->id}}/edit">
+                    <a href="/period/{{$period->id}}/edit">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <form action="/block/klase/{{$klase->id}}" method="POST">
+                    <form action="/period/{{$period->id}}" method="POST">
                         @csrf
                         @method('DELETE')
 
@@ -61,7 +58,7 @@
             @else
             <tr class="border-gray-300">
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    Current block has no subjects.
+                    Period is empty.
                 </td>
             </tr>
             @endunless

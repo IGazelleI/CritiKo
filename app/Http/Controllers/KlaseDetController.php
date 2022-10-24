@@ -18,7 +18,7 @@ class KlaseDetController extends Controller
                     -> join('subjects', 'klases.subject_id', 'subjects.id')
                     -> where('klases.id', '=', $klase)
                     -> get(),
-            'klase_dets' => KlaseDet::select('klase_dets.id', 'students.name as student')
+            'klase_dets' => KlaseDet::select('klase_dets.id', 'students.user_id as idNum', 'students.name as student')
                     -> join('klases', 'klase_dets.klase_id', 'klases.id')
                     -> join('students', 'klase_dets.user_id', 'students.user_id')
                     -> where('klase_dets.klase_id', '=', $klase)

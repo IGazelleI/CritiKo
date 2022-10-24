@@ -1,3 +1,4 @@
+<title> Questions </title>
 <x-layout>
     @php
         //check role

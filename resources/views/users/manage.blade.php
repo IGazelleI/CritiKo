@@ -1,53 +1,36 @@
-<title> Classes </title>
+<title> Users </title>
 <x-layout>
     <header>
         <h1 class="text-3xl text-center font-bold my-6 uppercase">
-            @foreach ($blocks as $block)
-                @php 
-                    $b = $block;
-                @endphp
-            @endforeach
-            {{$b->course}} {{$b->year_level}} -  {{$b->section}} Subjects
+            Users
         </h1>
-        <a href="/block/klase/add/{{$b->id}}" class="bg-laravel text-white rounded mb-2 py-2 px-4 hover:bg-black">
-            Add
-        </a>
-        <a href="/block/student/manage/{{$b->id}}" class="bg-laravel text-white rounded mb-2 ml-2 py-2 px-4 hover:bg-black">
-            Students
-        </a>
     </header>
     <table class="w-full table-auto rounded-sm">
         <tbody>
-            @unless($klases->isEmpty())
+            @unless($users->isEmpty())
             <tr class="border-gray-300">
                 <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> ID </th>
-                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Subject </th>
-                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Instructor </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Type </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Name </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Date Created </th>
                 <th  class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start" colspan="3"> Action </th>
             </tr>
-            @foreach($klases as $klase)
+            @foreach($users as $user)
             <tr class="border-gray-300">
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$klase->id}}
+                    {{$user->id}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$klase->subject}}
+                    {{$user->type}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    {{$klase->instructor}}
+                    {{$user->name}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <a href="/block/klase/detail/manage/{{$klase->id}}">
-                        <i class="fa-solid fa-search"></i>
-                    </a>
+                    {{date('M. d, Y @ g:i:s A', strToTime($user->created_at))}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <a href="/block/klase/{{$klase->id}}/edit">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                </td>
-                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    <form action="/block/klase/{{$klase->id}}" method="POST">
+                    <form action="/user/{{$user->id}}" method="POST">
                         @csrf
                         @method('DELETE')
 
@@ -61,7 +44,7 @@
             @else
             <tr class="border-gray-300">
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    Current block has no subjects.
+                    Period is empty.
                 </td>
             </tr>
             @endunless

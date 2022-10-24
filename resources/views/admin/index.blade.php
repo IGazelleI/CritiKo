@@ -1,3 +1,6 @@
+<title> Home </title>
 <x-layout>
-    Admin Home Page
+    <x-card class="text-center">
+        Admin Home Page
+    </x-card>
 </x-layout>

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('eval_dets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id')->constrained()->onDelete('cascade');
-            $table->integer('answer');
+            $table->string('answer');
             $table->foreignId('evaluation_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

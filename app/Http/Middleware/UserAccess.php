@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserAccess
 {
@@ -16,11 +17,13 @@ class UserAccess
      */
     public function handle(Request $request, Closure $next, $userType)
     {
-        if(auth()->user()->type == $userType)
+        $user = Auth::user();
+        
+        if(($userType == 'dean' && $user->isDean()) || $user->type == $userType)
         {
             return $next($request);
         }
-
+        
         return back()->with('message', 'Access denied.');
     }
 }

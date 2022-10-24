@@ -1,16 +1,5 @@
+<title> {{$category}} Questions </title>
 <x-layout>
-    @php
-        //check role
-        function checkRole($type)
-        {
-            switch($type)
-            {
-                case 3: return 'Faculty';
-                        break;
-                case 4: return 'Student';
-            }
-        }
-    @endphp
     <header>
         <h1 class="text-3xl text-center font-bold my-6 uppercase">
             {{$category}} Questions
@@ -83,3 +72,15 @@
         </tbody>
     </table>
 </x-layout>
+@php
+//check role
+function checkRole($type)
+{
+    switch($type)
+    {
+        case 3: return 'Faculty';
+                break;
+        case 4: return 'Student';
+    }
+}
+@endphp

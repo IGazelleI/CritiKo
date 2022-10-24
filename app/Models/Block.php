@@ -9,21 +9,21 @@ class Block extends Model
 {
     use HasFactory;
 
-    protected  $fillable = ['course_id', 'year_level', 'section', 'user_id'];
+    protected  $fillable = ['period_id', 'course_id', 'year_level', 'section'];
 
     //course relationship
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
-    //faculty relationship
-    public function adviser()
-    {
-        return $this->hasMany(Faculty::class, 'user_id');
-    }
     //block student relationship
     public function blockStudents()
     {
         return $this->hasMany(BlockStudent::class, 'block_id');
+    }
+    //period relationship
+    public function period()
+    {
+        return $this->belongsTo(Period::class, 'period_id');
     }
 }

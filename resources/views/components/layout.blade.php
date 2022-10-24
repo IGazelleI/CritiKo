@@ -30,50 +30,53 @@
         </script>
         <title>CritiKo</title>
     </head>
-    <body class="mb-48">
+    <body class="bg-gradient-to-l from-slate-100 to-slate-300 w-full h-full">
         <nav class="flex justify-between items-center mb-4">
             <a href="/"
-                ><img class="w-24" src="{{asset('images/logo.png')}}" alt="" class="logo"
+                ><img class="h-12 inline" src="{{asset('images/logo.png')}}" alt="Logo" class="logo"
             /></a>
             <ul class="flex space-x-6 mr-6 text-lg">
                 @auth
                     @if(auth()->user()->type == 'admin')
                     <li>
-                        <a href="/department/manage" class="bg-blue hover:text-laravel"
-                            ></i> Department </a
-                        >
+                        <a href="/user/manage" class="bg-blue hover:text-laravel"></i> User </a>
                     </li>
                     <li>
-                        <a href="/course" class="hover:text-laravel"
-                            ></i> Course </a
-                        >
+                        <a href="/period/manage" class="bg-blue hover:text-laravel"></i> Period </a>
                     </li>
                     <li>
-                        <a href="/subject" class="hover:text-laravel"
-                            ></i> Subject </a
-                        >
+                        <a href="/department/manage" class="bg-blue hover:text-laravel"></i> Department </a>
                     </li>
                     <li>
-                        <a href="/block" class="hover:text-laravel"
-                            ></i> Block </a
-                        >
+                        <a href="/course" class="hover:text-laravel"></i> Course </a>
                     </li>
                     <li>
-                        <a href="/register" class="hover:text-laravel"
-                            ><i class="fa-solid fa-user-plus"></i> Register</a
-                        >
+                        <a href="/subject" class="hover:text-laravel"></i> Subject </a>
+                    </li>
+                    <li>
+                        <a href="/block" class="hover:text-laravel"></i> Block </a>
+                    </li>
+                    <li>
+                        <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> Register</a>
                     </li>
                     @elseif(auth()->user()->type == 'sast')
                     <li>
-                        <a href="/question" class="bg-blue hover:text-laravel"
-                            ></i> Question </a
-                        >
+                        <a href="/question" class="bg-blue hover:text-laravel"></i> Question </a>
                     </li>
                     @elseif(auth()->user()->type == 'student' || auth()->user()->type == 'faculty')
+                    @if(auth()->user()->type == 'student')
                     <li>
-                        <a href="/{{auth()->user()->type}}/evaluate" class="bg-blue hover:text-laravel"
-                            ></i> Evaluate </a
+                        <a href="/enroll" class="bg-blue hover:text-laravel"
+                            ></i> Enroll </a
                         >
+                    </li>
+                    @elseif(auth()->user()->isDean())
+                    <li>
+                        <a href="/enrollments" class="bg-blue hover:text-laravel"></i> Enrollments </a>
+                    </li>
+                    @endif
+                    <li>
+                        <a href="/{{auth()->user()->type}}/evaluate" class="bg-blue hover:text-laravel"></i> Evaluate </a>
                     </li>
                     @endif
                     <li>
@@ -92,10 +95,9 @@
                     </li>
                 @else
                     <li>
-                        <a href="/login" class="hover:text-laravel"
-                            ><i class="fa-solid fa-arrow-right-to-bracket"></i>
-                            Login</a
-                        >
+                        <a href="/login" class="hover:text-laravel"><i class="fa-solid fa-arrow-right-to-bracket"></i>
+                            Login
+                        </a>
                     </li>
                 @endauth
             </ul>
@@ -103,11 +105,7 @@
         <main>
             {{$slot}}
         </main>
-        <footer
-            class="fixed bottom-0 left-0 w-full flex items-center justify-start font-bold bg-laravel text-white h-24 mt-24 opacity-90 md:justify-center"
-        >
-            <p class="ml-2">Copyright &copy; 2022, All Rights reserved</p>
-        </footer>
         <x-flash-message/>
+        <x-footer/>
     </body>
 </html>

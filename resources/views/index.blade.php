@@ -1,3 +1,5 @@
 <x-layout>
-    CritiKo Home Page
+    <x-card class="text-center">
+        CritiKo Home Page
+    </x-card>
 </x-layout>

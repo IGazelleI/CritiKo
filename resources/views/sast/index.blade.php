@@ -1,3 +1,6 @@
+<title> SAST Home Page </title>
 <x-layout>
-    SAST Home Page
+    <x-card class="text-center">
+        SAST Home Page
+    </x-card>
 </x-layout>

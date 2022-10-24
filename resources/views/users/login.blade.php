@@ -1,3 +1,4 @@
+<title> Login </title>
 <x-layout>
     <x-card>
         <header class="text-center">
@@ -51,19 +52,13 @@
             <div class="mb-6">
                 <button
                     type="submit"
-                    class="bg-laravel text-white rounded py-2 px-4 hover:bg-black"
+                    class="bg-white border-2 rounded py-2 px-4 hover:border-black"
                 >
                     Login
                 </button>
             </div>
         
             <div class="mt-8">
-                <p>
-                    Don't have an account?
-                    <a href="/register" class="text-laravel"
-                        >Register</a
-                    >
-                </p>
             </div>
         </form>
     </x-card>
