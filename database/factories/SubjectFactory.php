@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,7 @@ class SubjectFactory extends Factory
     {
         return [
             'code' => random_int(100, 499),
-            'name' => $this->faker->name()
+            'name' => 'Subject ' . Subject::count()
         ];
     }
 }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('q_type_id')->constrained()->onDelete('cascade');
             $table->foreignId('q_category_id')->constrained()->onDelete('cascade');
             $table->tinyText('sentence');
-            $table->string('keyword');
+            $table->string('keyword')->nullable();
             $table->integer('type');
             $table->timestamps();
         });

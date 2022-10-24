@@ -41,11 +41,17 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 Route::middleware(['auth', 'user-access:admin'])->group(function ()
 {
     //Show manage user page
-    Route::get('/user/manage', [AdminController::class, 'manageUser']);
+    Route::get('/user/manage/{type}', [AdminController::class, 'manageUser']);
     //Show register form
     Route::get('/register', [UserController::class, 'register']);
     //Store user data
     Route::post('/users', [UserController::class, 'store']);
+    //Add random users
+    Route::post('/user/random/{type}', [AdminController::class, 'addRandom']);
+    //Assign dean
+    Route::get('/user/{dept}/assign', [AdminController::class, 'assignDean']);
+    //Update dean
+    Route::put('/user/dean', [AdminController::class, 'updateDean']);
 
     //Period Routes
     //Show manage period page
@@ -111,9 +117,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function ()
     //Block main page
     Route::get('/block', [BlockController::class, 'main']);
     //Show manage block page
-    Route::get('/block/manage/{subject}', [BlockController::class, 'manage']);
+    Route::get('/block/manage/{course}', [BlockController::class, 'manage']);
     //Show create block form
-    Route::get('/block/create/{subject}', [BlockController::class, 'create']);
+    Route::get('/block/create/{course}', [BlockController::class, 'create']);
     //Store block data
     Route::post('/block', [BlockController::class, 'store']);
     //Show edit block form
@@ -207,10 +213,14 @@ Route::middleware(['auth', 'user-access:faculty'])->group(function()
     Route::post('/faculty', [FacultyController::class, 'store']);
 
     //Dean Routes
-    //Show enrollments
-    Route::get('/enrollments', [FacultyController::class, 'enrollments'])->middleware(['user-access:dean']);
-    //Enrollment action
-    Route::put('/enroll/{enroll}', [FacultyController::class, 'enrollmentAction'])->middleware(['user-access:dean']);
+    Route::middleware('user-access:dean')->group(function ()
+    {
+        //Show enrollments
+        Route::get('/enrollments', [FacultyController::class, 'enrollments']);
+        //Enrollment action
+        Route::put('/enroll/{enroll}', [FacultyController::class, 'enrollmentAction']);
+    });
+    
 });
 
 //Student Routes

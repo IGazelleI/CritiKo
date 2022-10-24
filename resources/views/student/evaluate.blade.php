@@ -10,7 +10,7 @@
                     </h1>
                 </header>
             </x-card>
-            @elseif($period->begin < NOW()->format('Y-m-d'))
+            @elseif($period->begin <= NOW()->format('Y-m-d'))
             <form action="/student" method="POST">
                 @csrf
                 <header>

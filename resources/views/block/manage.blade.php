@@ -1,20 +1,15 @@
-<title> ({{$c->name}}) Blocks </title>
+<title> {{$course->name}} Blocks </title>
 <x-layout>
     <header>
-        @foreach ($courses as $course)
-            @php
-                $c = $course;
-            @endphp            
-        @endforeach
         <h1 class="text-3xl text-center font-bold my-6 uppercase">
-            {{$c->name}} 
+            {{$course->name}}
             <br/>
             Blocks
         </h1>
-        <a href="/block/create/{{$c->id}}" class="bg-laravel text-white rounded mb-2 py-2 px-4 hover:bg-black">
+        <a href="/block/create/{{$course->id}}" class="bg-laravel text-white rounded mb-2 py-2 px-4 hover:bg-black">
             New
         </a>
-        <a href="/subject/manage/{{$c->id}}" class="bg-laravel text-white rounded mb-2 ml-2 py-2 px-4 hover:bg-black">
+        <a href="/subject/manage/{{$course->id}}" class="bg-laravel text-white rounded mb-2 ml-2 py-2 px-4 hover:bg-black">
             Subjects
         </a>
     </header>

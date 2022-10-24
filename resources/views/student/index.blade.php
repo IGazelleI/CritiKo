@@ -2,9 +2,8 @@
 <x-layout>
     <header class="text-center">
         <h2 class="text-2xl font-bold uppercase mb-1">
-            Student Home Page
+            {{$semester}}
         </h2>
-        <p class="mb-4"> {{$semester}} </p>
     </header>
     <table class="w-full table-auto rounded-sm">
         <tbody>

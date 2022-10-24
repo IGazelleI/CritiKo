@@ -16,7 +16,7 @@
                 </label>
                 <select name="course_id" id="course_id" class="border border-gray-200 rounded p-2 w-full">
                     @foreach ($courses as $course)
-                        <option value="{{$course->id}}" {{old('course_id') == $course->id? 'selected' : ''}}> {{$course->name}} </option>
+                        <option value="{{$course->id}}" {{(old('course_id') == $course->id || $courseID == $course->id)? 'selected' : ''}}> {{$course->name}} </option>
                     @endforeach
                 </select>
             </div>

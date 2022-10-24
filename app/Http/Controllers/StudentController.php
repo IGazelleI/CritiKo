@@ -60,6 +60,7 @@ class StudentController extends Controller
                                 -> join('faculties', 'klases.user_id', 'faculties.user_id')
                                 -> join('klase_dets', 'klases.id', 'klase_dets.klase_id')
                                 -> join('subjects', 'klases.subject_id', 'subjects.id')
+                                -> where('klase_dets.user_id', '=', auth()->user()->id)
                                 -> groupBy('subjects.code', 'faculties.user_id', 'faculties.name')
                                 -> get(),
             'status' => Evaluation::select('evaluatee')
@@ -218,20 +219,24 @@ class StudentController extends Controller
             $semID = $sems->id;
 
         //get previous year level
-        $years = Student::select('year_level')
+        $studInfo = Student::select('course_id', 'year_level')
                         -> where('user_id', '=', auth()->user()->id)
                         -> get();
 
-        if($years->isEmpty())
+        if($studInfo->isEmpty())
             $year = 1;
         else
         {
-            foreach($years as $y)
-                $year = $y->year_level;
+            foreach($studInfo as $det)
+            {
+                $year = $det->year_level;
+                $courseID = $det->course_id;
+            }
         }
 
         return view('student.enrollment', [
             'semID' => $semID,
+            'courseID' => $courseID,
             'prevYear' => $year,
             'courses' => Course::select('id', 'name')
                     -> get()

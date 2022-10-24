@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Course;
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Course>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Question>
  */
-class CourseFactory extends Factory
+class QuestionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +18,8 @@ class CourseFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'Course ' . Course::count() + 1,
-            'abbre' => 'C' . Course::count() + 1
+            'sentence' => 'question ' . Question::count() + 1,
+            'keyword' => 'q' . Question::count() + 1 . ' keyword'
         ];
     }
 }

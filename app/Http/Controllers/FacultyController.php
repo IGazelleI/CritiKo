@@ -41,7 +41,10 @@ class FacultyController extends Controller
             $count++;
             //recommendation process
             if($att->points < $lowAtt)
-                $lowAtt = $att->catID;
+            {
+                $lowAtt = $att->points;
+                $lowAttCat =  $att->catID;
+            }
         }
         $chart->labels($labels);
         $chart->dataset('Latest', 'radar', $points);
@@ -61,7 +64,7 @@ class FacultyController extends Controller
         ]);
         //recommendations
         $recommendation = Question::select('keyword')
-                            -> where('q_category_id', '=', $lowAtt)
+                            -> where('q_category_id', '=', $lowAttCat)
                             -> get();
 
         //get current department
@@ -233,7 +236,11 @@ class FacultyController extends Controller
         //Adds to block if approved
         if($request->decision)
         {
-            if($enroll->year_level == 1) //first year
+            $studSec = Student::select('section')
+                            -> where('user_id', '=', $enroll->user_id)
+                            -> get();
+
+            if($enroll->year_level == 1 || $studSec[0]->section == NULL) //first year or transferee dretso 2nd year or so
             {
                 //auto-assign to section
                 //get current blocks

@@ -11,6 +11,7 @@
         <form action="/question" method="POST">
             @csrf
             @method('PUT')
+            <input type="hidden" name="id" value="{{$q->id}}"/>
             <div class="mb-6">
                 <label for="q_type_id" class="inline-block text-lg mb-2">
                     Type
@@ -20,6 +21,10 @@
                         <option value="{{$type->id}}" {{(old('q_type_id') == $type->id || $q->q_type_id == $type->id)? 'selected' : ''}}> {{$type->name}} </option>
                     @endforeach
                 </select>
+
+                @error('q_type_id')
+                    <p class="text-red-500 text-xs mt-1"> {{$message}} </p>
+                @enderror
             </div>
             <div class="mb-6">
                 <label for="q_category_id" class="inline-block text-lg mb-2">
@@ -30,6 +35,10 @@
                         <option value="{{$cat->id}}" {{(old('q_category_id') == $cat->id || $q->q_category_id == $cat->id)? 'selected' : ''}}> {{$cat->name}} </option>
                     @endforeach
                 </select>
+
+                @error('q_category_id')
+                    <p class="text-red-500 text-xs mt-1"> {{$message}} </p>
+                @enderror
             </div>
             <div class="mb-6">
                 <label
@@ -72,6 +81,10 @@
                     <option value="3" {{(old('type') == 3 || $q->type == 3)? 'selected' : ''}}> Faculty </option>
                     <option value="4" {{(old('type') == 4 || $q->type == 4)? 'selected' : ''}}> Student </option>
                 </select>
+
+                @error('type')
+                    <p class="text-red-500 text-xs mt-1"> {{$message}} </p>
+                @enderror
             </div>
             <div class="mb-6">
                 <button

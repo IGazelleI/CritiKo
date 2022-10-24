@@ -130,8 +130,8 @@ class QuestionController extends Controller
             'keyword' => 'required',
             'type' => 'required'
         ]);
-
-        DB::table('questions')
+        
+        if(!DB::table('questions')
                 ->where ('id','=', $formFields ['id'])
                 ->update ([
                     'id' => $formFields ['id'],
@@ -141,8 +141,9 @@ class QuestionController extends Controller
                     'keyword' => $formFields['keyword'],
                     'type' => $formFields['type'],
                     'updated_at' => NOW()
-                ]);
-        //$question->update($formFields);
+                ]))
+                return redirect('/question')->with('message', 'Error in updating question.');
+
         return redirect('/question')->with('message', 'Question updated.');
     }
     //Delete data
@@ -156,10 +157,10 @@ class QuestionController extends Controller
     public function preview()
     {
         return view('question.preview', [
-            'question' => Question::select('questions.id', 'q_types.name as type', 'q_categories.name as cat', 'questions.sentence', 'questions.keyword', 'questions.type as answerer')
+            'question' => Question::select('questions.id', 'q_types.id as typeID', 'q_types.name as type', 'q_categories.name as cat', 'questions.sentence', 'questions.keyword', 'questions.type as answerer')
                                 -> join('q_types', 'questions.q_type_id', 'q_types.id')
                                 -> join('q_categories', 'questions.q_category_id', 'q_categories.id')
-                                -> where('questions.answerer', '=', 4)
+                                -> where('questions.type', '=', 4)
                                 -> orderBy('questions.q_category_id')
                                 -> get()
         ]);

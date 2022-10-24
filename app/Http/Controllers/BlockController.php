@@ -25,15 +25,13 @@ class BlockController extends Controller
         ]);
     }
     //Show manage page
-    public function manage($course)
+    public function manage(Course $course)
     {
         return view('block.manage', [
-            'courses' => Course::select('id', 'name')
-                    -> where('id', '=', $course)
-                    -> get(),
+            'course' => $course,
             'blocks' => Block::select('blocks.id', 'blocks.year_level', 'blocks.section', 'periods.description as semester')
                     -> join('periods', 'blocks.period_id', 'periods.id')
-                    -> where('blocks.course_id', '=', $course)
+                    -> where('blocks.course_id', '=', $course->id)
                     -> get()
         ]);
     }

@@ -32,14 +32,19 @@
     </head>
     <body class="bg-gradient-to-l from-slate-100 to-slate-300 w-full h-full">
         <nav class="flex justify-between items-center mb-4">
-            <a href="/"
-                ><img class="h-12 inline" src="{{asset('images/logo.png')}}" alt="Logo" class="logo"
-            /></a>
+            <a href="/">
+                <img class="h-12 inline" src="{{asset('images/logo.png')}}" alt="Logo" class="logo"/>
+            </a>
             <ul class="flex space-x-6 mr-6 text-lg">
                 @auth
+                    <li>
+                        <a href="/{{auth()->user()->type}}">
+                            Home
+                        </a>
+                    </li>
                     @if(auth()->user()->type == 'admin')
                     <li>
-                        <a href="/user/manage" class="bg-blue hover:text-laravel"></i> User </a>
+                        <a href="/user/manage/0" class="bg-blue hover:text-laravel"></i> User </a>
                     </li>
                     <li>
                         <a href="/period/manage" class="bg-blue hover:text-laravel"></i> Period </a>
@@ -57,7 +62,7 @@
                         <a href="/block" class="hover:text-laravel"></i> Block </a>
                     </li>
                     <li>
-                        <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> Register</a>
+                        <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> Add User </a>
                     </li>
                     @elseif(auth()->user()->type == 'sast')
                     <li>
