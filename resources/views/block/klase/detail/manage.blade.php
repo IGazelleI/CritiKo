@@ -17,13 +17,16 @@
             @unless($klase_dets->isEmpty())
             <tr class="border-gray-300">
                 <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> ID </th>
-                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Student </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> ID Number </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Name </th>
                 <th  class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start" colspan="3"> Action </th>
             </tr>
             @foreach($klase_dets as $detail)
             <tr class="border-gray-300">
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
                     {{$detail->id}}
+                </td><td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                    {{$detail->idNum}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
                     {{$detail->student}}

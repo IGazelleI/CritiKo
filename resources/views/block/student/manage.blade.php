@@ -22,6 +22,7 @@
             @unless($blockStuds->isEmpty())
             <tr class="border-gray-300">
                 <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> ID </th>
+                <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> ID Number </th>
                 <th class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start"> Name </th>
                 <th  class="px-4 py-8 border-t border-b border-gray-300 text-lg text-start" colspan="3"> Action </th>
             </tr>
@@ -29,6 +30,9 @@
             <tr class="border-gray-300">
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
                     {{$blockStud->id}}
+                </td>
+                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                    {{$blockStud->idNum}}
                 </td>
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
                     {{$blockStud->student}}

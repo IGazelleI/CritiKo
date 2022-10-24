@@ -118,7 +118,11 @@ class StudentController extends Controller
         return view('student.evaluate', [
             'period' => $period,
             'instructor' => $instructor,
-            'question' => Question::select('questions.id', 'q_types.name as type', 'q_categories.name as cat', 'questions.sentence', 'questions.keyword', 'q_categories.id as catID')
+            'status' => Evaluation::select('evaluatee')
+                                -> where('evaluator', '=', auth()->user()->id)
+                                -> groupBy('evaluatee')
+                                -> get(),
+            'question' => Question::select('questions.id', 'q_types.id as typeID', 'q_types.name as type', 'q_categories.name as cat', 'questions.sentence', 'questions.keyword', 'q_categories.id as catID')
                                 -> join('q_types', 'questions.q_type_id', 'q_types.id')
                                 -> join('q_categories', 'questions.q_category_id', 'q_categories.id')
                                 -> orderBy('questions.q_category_id')
@@ -131,12 +135,17 @@ class StudentController extends Controller
     {
         $formFields = $request->validate([
             'user_id' => 'required'
+        ], [
+            'user_id.required' => 'Instructor field is required.'
         ]);
         
         $eval = Evaluation::create([
             'evaluator' => auth()->user()->id,
             'evaluatee' => $formFields['user_id']
         ]);
+
+        if(!$eval)
+            return back()->with('message', 'Error in creating evaluation.');
 
         //update faculty points
         $prevCat = 0;
@@ -147,32 +156,45 @@ class StudentController extends Controller
         for($i = 1; $i <= $request->totalQuestion; $i++)
         {
             //insert to evaluation details table
-            EvalDet::create([
+            if(!EvalDet::create([
                 'question_id' => $request['qID' . $i],
                 'answer' => $request['qAns' . $i],
                 'evaluation_id' => $eval->id
-            ]);
-            
+            ]))
+                return back()->with('message', 'Error in creating evalation detail.');
+            //update attribute of evaluatee based on points
             if($prevCat != $request['qCatID' . $i] && $prevCat != 0)
             {
+                //get points of the current category of the faculty
+                $points = Attribute::select('points')
+                                -> where('q_category_id', '=', $prevCat)
+                                -> where('faculty_id', '=', $eval->evaluatee)
+                                -> get();
+
+                foreach($points as $point)
+                    $pts = $point->points;
+
+                $pts = ($pts + (($catPts / ($catCount * 5)) * 100)) / 2;
+
                 $details = [
                     'faculty_id' => $formFields['user_id'],
                     'q_category_id' => $prevCat,
-                    'points' => ($catPts / ($catCount * 5)) * 100
+                    'points' => $pts
                 ];
 
-                $e = DB::table('attributes')
+                if(!DB::table('attributes')
                     -> where('faculty_id', '=', $details['faculty_id'])
                     -> where('q_category_id', '=', $details['q_category_id'])
-                    -> update(['points' => $details['points']]);
+                    -> update(['points' => $details['points']]))
+                    return back()->with('message', 'Error in updating attribute');
 
                 $catcount = 0;
                 $catPts = 0;
             }
-
+            //get points from evaluation
             if($prevCat == $request['qCatID' . $i])
             {
-                $catPts += $request['qAns' . $i];
+                $catPts += (int) $request['qAns' . $i];
 
                 $catCount++;
             }

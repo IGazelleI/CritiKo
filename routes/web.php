@@ -203,12 +203,14 @@ Route::middleware(['auth', 'user-access:faculty'])->group(function()
     Route::get('/faculty', [FacultyController::class, 'index']);
     //Display evaluate faculty form
     Route::get('/faculty/evaluate', [FacultyController::class, 'evaluate']);
+    //Store evaluation data
+    Route::post('/faculty', [FacultyController::class, 'store']);
 
     //Dean Routes
     //Show enrollments
-    Route::get('/enrollments',[FacultyController::class, 'enrollments']);
+    Route::get('/enrollments', [FacultyController::class, 'enrollments'])->middleware(['user-access:dean']);
     //Enrollment action
-    Route::put('/enroll/{enroll}', [FacultyController::class, 'enrollmentAction']);
+    Route::put('/enroll/{enroll}', [FacultyController::class, 'enrollmentAction'])->middleware(['user-access:dean']);
 });
 
 //Student Routes

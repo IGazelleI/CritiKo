@@ -20,7 +20,7 @@ class BlockStudentController extends Controller
                     -> join('courses', 'blocks.course_id', 'courses.id')
                     -> where('blocks.id', '=', $block)
                     -> get(),
-            'blockStuds' => BlockStudent::select('block_students.id', 'students.name as student')
+            'blockStuds' => BlockStudent::select('block_students.id', 'students.user_id as idNum', 'students.name as student')
                     -> join('students',  'block_students.user_id', 'students.user_id')
                     -> join('blocks', 'block_students.block_id', 'blocks.id')
                     -> where('block_students.block_id', '=', $block)
