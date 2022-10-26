@@ -52,19 +52,19 @@ class DatabaseSeeder extends Seeder
 
         $qcat = [
             [
-                'name' => 'QCategory1'//'Management'
+                'name' => 'Management'
             ],
             [
-                'name' => 'QCategory2'//'Performance'
+                'name' => 'Performance'
             ],
             [
-                'name' => 'QCategory3'//'Farm'
+                'name' => 'Farm'
             ],
             [
-                'name' => 'QCategory4'//'Support'
+                'name' => 'Support'
             ],
             [
-                'name' => 'QCategory5'//'Push'
+                'name' => 'Push'
             ]
         ];
         $cats = [];
@@ -73,19 +73,10 @@ class DatabaseSeeder extends Seeder
         foreach($qcat as $cat)
         {
             $cats[$i] = QCategory::create($cat);
-            //create 4 questions on category created
-            for($j = 0; $j < 4; $j++)
-            {
-                Question::factory()->create([
-                    'q_type_id' => 1,
-                    'q_category_id' => $cats[$i]->id,
-                    'type' => 4
-                ]);
-            }
             $i++;
         }
 
-        /* //factory management questions
+        //factory management questions
         $questions = [
             [
                 'q_type_id' => 1,
@@ -229,7 +220,7 @@ class DatabaseSeeder extends Seeder
             ]
         ];
         foreach($questions as $q)
-            Question::create($q); */
+            Question::create($q);
 
         $departments = [
             [
@@ -237,8 +228,8 @@ class DatabaseSeeder extends Seeder
                 'abbre' => 'CCICT'
             ],
             [
-                'name' => 'College of ICT',
-                'abbre' => 'CCICT'
+                'name' => 'College of Arts and Sciences',
+                'abbre' => 'CAS'
             ],
             [
                 'name' => 'College of Technology',
@@ -257,7 +248,13 @@ class DatabaseSeeder extends Seeder
         foreach($departments as $dept)
             Department::create($dept);
 
-        /* $faculty = [
+        $faculty = [
+            [
+                'type' => 3,
+                'name' => 'Jose Marie Garcia',
+                'email' => 'jose@gmail.com',
+                'password' => bcrypt('amores15')
+            ],
             [
                 'type' => 3,
                 'name' => 'Bell Campanilla',
@@ -274,6 +271,24 @@ class DatabaseSeeder extends Seeder
                 'type' => 3,
                 'name' => 'Noreen Fuentes',
                 'email' => 'noreen@gmail.com',
+                'password' => bcrypt('amores15')
+            ],
+            [
+                'type' => 3,
+                'name' => 'Dindo Logpit',
+                'email' => 'dindo@gmail.com',
+                'password' => bcrypt('amores15')
+            ],
+            [
+                'type' => 3,
+                'name' => 'Starzy Bicare Baluarte-Bacus',
+                'email' => 'starzy@gmail.com',
+                'password' => bcrypt('amores15')
+            ],
+            [
+                'type' => 3,
+                'name' => 'Joey Sayson',
+                'email' => 'joey@gmail.com',
                 'password' => bcrypt('amores15')
             ]
         ]; 
@@ -299,7 +314,7 @@ class DatabaseSeeder extends Seeder
                     ]);
                 }
             }
-        } */
+        }/* 
         //create 5 faculty
         for($i = 0; $i < 5; $i++)
         {
@@ -323,9 +338,361 @@ class DatabaseSeeder extends Seeder
                     'points' => random_int(20, 90)
                 ]);
             }
-        }
+        } */
+        //Factory courses
+        $courses = [
+            [
+                'department_id' => 1,
+                'name' => 'Bachelor of Science in Information Technology',
+                'abbre' => 'BSIT'
+            ],
+            [
+                'department_id' => 1,
+                'name' => 'Bachelor of Science in Computer Science',
+                'abbre' => 'BSCS'
+            ],
+            [
+                'department_id' => 1,
+                'name' => 'Bachelor of Science in Computer Technology',
+                'abbre' => 'BSCompTech'
+            ]
+        ];
+
+        foreach($courses as $c)
+            Course::create($c);
+
+        $subjects = [
+            /* [
+                'course_id' => 1,
+                'code' => 'GEC-RPH',
+                'name' => 'Readings in Philippine History'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'GEC-MMW',
+                'name' => 'Mathematics in the Modern Word'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'GEC-TEM',
+                'name' => 'The Entrepreneurial Mind'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'CC 111',
+                'name' => 'Introduction to Computing'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'CC 112',
+                'name' => 'Programming 1 (Lec)'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'CC 112 L',
+                'name' => 'Programming 1 (Lab)'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'AP 1',
+                'name' => 'Multimedia'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'GEC-RPH',
+                'name' => 'Readings in Philippine History'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PE 1',
+                'name' => 'Physical Education 1'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'NSTP 1',
+                'name' => 'National Service Training Program 1'
+            ], //2nd sem 1st year
+            [
+                'course_id' => 1,
+                'code' => 'GEC-PC',
+                'name' => 'Purposive Communication'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'GEC-STS',
+                'name' => 'Science, Technology and Society'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'GEC-US',
+                'name' => 'Understanding the Self'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'GEE-RRES',
+                'name' => 'Religions, Religious Experiences and Spirituality'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'CC 123',
+                'name' => 'Programming 2 (Lec)'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'CC 123 L',
+                'name' => 'Programming 2 (Lab)'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 121',
+                'name' => 'Discrete Mathematics'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'AP 2',
+                'name' => 'Digital Logic Design'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PE 2',
+                'name' => 'Physical Education 2'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'NSTP 2',
+                'name' => 'National Service Training Program 2'
+            ],//2nd year
+            [
+                'course_id' => 1,
+                'code' => 'GEC-E',
+                'name' => 'Ethics'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'GEE-ES',
+                'name' => 'Environmental Science'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'GEC-LWR',
+                'name' => 'Life and Works of Rizal'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 212',
+                'name' => 'Quantitative Methods (Modeling & Simulation)'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'CC 214',
+                'name' => 'Data Structures and Algorithms (Lec)'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'CC 214 L',
+                'name' => 'Data Structures and Algorithms (Lab)'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'P Elec 1',
+                'name' => 'Professional Elective 1'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'P Elec 2',
+                'name' => 'Professional Elective 2'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PE 3',
+                'name' => 'Physical Education 3'
+            ],//2nd sem 
+            [
+                'course_id' => 1,
+                'code' => 'GEC-TCW',
+                'name' => 'The Contemporary World'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 223',
+                'name' => 'Integrative Programming and Technologies 1'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 224',
+                'name' => 'Networking 1'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'CC 225',
+                'name' => 'Information Management (Lec)'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'CC 225 L',
+                'name' => 'Information Management (Lab)'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'P Elec 3',
+                'name' => 'Professional Elective 3'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'AP 3',
+                'name' => 'ASP.NET'
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PE 4',
+                'name' => 'Physical Education 4'
+            ],//3rd year */
+            [
+                'course_id' => 1,
+                'code' => 'GEC-KAF',
+                'name' => 'Komunikasyon sa Akademikong Filipino',
+                'year_level' => 3,
+                'semester' => 1
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 315',
+                'name' => 'Networking 2 (Lec)',
+                'year_level' => 3,
+                'semester' => 1
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 315 L',
+                'name' => 'Networking 2 (Lab)',
+                'year_level' => 3,
+                'semester' => 1
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 316',
+                'name' => 'Systems Integration and Arcitecture 1',
+                'year_level' => 3,
+                'semester' => 1
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 317',
+                'name' => 'Introduction to Human Computer Interaction',
+                'year_level' => 3,
+                'semester' => 1
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 318',
+                'name' => 'Database Management Systems',
+                'year_level' => 3,
+                'semester' => 1
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 319',
+                'name' => 'Applications Development and Emerging Technologies',
+                'year_level' => 3,
+                'semester' => 1
+            ],//2nd sem
+            [
+                'course_id' => 1,
+                'code' => 'GEC-AA',
+                'name' => 'Art Appreciation',
+                'year_level' => 3,
+                'semester' => 2
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'GEC-PPTP',
+                'name' => 'Pagbasa at Pagsulat Tungo sa Pananaliksik',
+                'year_level' => 3,
+                'semester' => 2
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 329',
+                'name' => 'Capstone Project and Research 1 (Technopreneurship 1)',
+                'year_level' => 3,
+                'semester' => 2
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 3210',
+                'name' => 'Social and Professional Issues',
+                'year_level' => 3,
+                'semester' => 2
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 3211',
+                'name' => 'Information Assurance and Security 1 (Lec)',
+                'year_level' => 3,
+                'semester' => 2
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 3211 L',
+                'name' => 'Information Assurance and Security 1 (Lab)',
+                'year_level' => 3,
+                'semester' => 2
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'AP 4',
+                'name' => 'iOS Mobile Application Development Cross-Platform',
+                'year_level' => 3,
+                'semester' => 2
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'AP 5',
+                'name' => 'Technology and the Application of the Internet of Things',
+                'year_level' => 3,
+                'semester' => 2
+            ],//4th year
+            [
+                'course_id' => 1,
+                'code' => 'PC 4112',
+                'name' => 'Information and Assurance Security 2 (Lec)',
+                'year_level' => 4,
+                'semester' => 1
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 4112 L',
+                'name' => 'Information and Assurance Security 2 (Lab)',
+                'year_level' => 4,
+                'semester' => 1
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 4113',
+                'name' => 'Systems Administration and Maintenance',
+                'year_level' => 4,
+                'semester' => 1
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'P Elec 4',
+                'name' => 'Professional Elective 4',
+                'year_level' => 4,
+                'semester' => 1
+            ],
+            [
+                'course_id' => 1,
+                'code' => 'PC 4114',
+                'name' => 'Capstone Project and Research 2 (Technopreneurship 2)',
+                'year_level' => 4,
+                'semester' => 1
+            ]
+        ];
+
+        foreach($subjects as $sub)
+            Subject::create($sub);
         
-        //create four courses in one department
+        /* //create four courses in one department
         for($i = 0; $i < 4; $i++)
         {
             $course = Course::factory()->create([
@@ -338,8 +705,8 @@ class DatabaseSeeder extends Seeder
                     'course_id' => $course->id
                 ]);
             }
-        }
-        //create 20 students
+        } */
+        /* //create 20 students
         for($i = 0; $i < 20; $i++)
         {
             //create user
@@ -353,7 +720,7 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $user->id,
                 'course_id' => random_int(1, Course::count())
             ]);
-        }
+        } */
         //create current period
         Period::create([
             'description' => '1st Semester 2022-2023'

@@ -54,29 +54,6 @@
                 @enderror
             </div>
             <div class="mb-6">
-                <label
-                    for="user_id"
-                    class="inline-block text-lg mb-2"
-                    >Adviser</label
-                >
-                <select name="user_id" id="user_id" class="border border-gray-200 rounded p-2 w-full">
-                    @unless($adviser->isEmpty())
-
-                    @foreach ($adviser as $prof)
-                        <option value="{{$prof->user_id}}" {{old('user_id') == $prof->user_id? 'selected' : ''}}> {{$prof->name}} </option>
-                    @endforeach
-
-                    @else
-                        <option> Department's current faculty is empty. </option>
-                    
-                    @endunless
-                </select>
-
-                @error('user_id')
-                    <p class="text-red-500 text-xs mt-1"> {{$message}} </p>
-                @enderror
-            </div>
-            <div class="mb-6">
                 <button
                     class="bg-laravel text-white rounded py-2 px-4 hover:bg-black"
                 >

@@ -157,10 +157,11 @@ class QuestionController extends Controller
     public function preview()
     {
         return view('question.preview', [
-            'question' => Question::select('questions.id', 'q_types.id as typeID', 'q_types.name as type', 'q_categories.name as cat', 'questions.sentence', 'questions.keyword', 'questions.type as answerer')
+            'question' => Question::select('questions.id', 'q_types.id as typeID', 'q_types.name as type', 'q_categories.name as cat', 'questions.sentence', 'questions.keyword', 'q_categories.id as catID')
                                 -> join('q_types', 'questions.q_type_id', 'q_types.id')
                                 -> join('q_categories', 'questions.q_category_id', 'q_categories.id')
-                                -> where('questions.type', '=', 4)
+                                -> where('questions.type',  '=', 4)
+                                -> orderBy('questions.q_type_id')
                                 -> orderBy('questions.q_category_id')
                                 -> get()
         ]);

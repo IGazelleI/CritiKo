@@ -61,7 +61,7 @@
             @else
             <tr class="border-gray-300">
                 <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                    Current block has no subjects.
+                    Current block has no class.
                 </td>
             </tr>
             @endunless

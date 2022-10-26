@@ -66,9 +66,9 @@
                 @endphp
                 @else {{-- question type quality --}}
                 <tr class="border-gray-300">
-                    <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                    <td class="px-4 py-8 border-t border-b border-gray-300 text-lg" colspan="6">
                         <div class="mb-6">
-                            <label for="{{'qAns' . $qnum}}" class="inline-block text-lg mb-2">
+                            <label for="{{'qAns' . $qnum}}" class="inline-block text-lg ml-3 mb-2">
                                 {{$q->sentence}}
                             </label>
                             <input type="text" class="border border-black-200 rounded p-2 w-full" name="{{'qAns' . $qnum}}"/>

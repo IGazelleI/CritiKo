@@ -18,11 +18,11 @@
                 <select name="user_id" id="user_id" class="border border-gray-200 rounded p-2 w-full">
                     @unless($facs->isEmpty())
                     @foreach ($facs as $fac)
-                        <option value="{{$fac->id}}"> {{$fac->name}} </option>
+                        <option value="{{$fac->user_id}}" {{$fac->user_id == $currentDean? 'selected' : ''}}> {{$fac->name}} </option>
                     @endforeach
 
                     @else
-                        <option selected disabled> Current department has no faculty. </option>
+                        <option selected disabled> Current department has no faculty. </option> 
 
                     @endunless
                 </select>
@@ -38,7 +38,7 @@
                     Assign
                 </button>
 
-                <a href="/block/klase/manage/{{}}" class="text-black ml-4"> Back </a>
+                <a href="/user/manage/5" class="text-black ml-4"> Back </a>
             </div>
         </form>
     </x-card>

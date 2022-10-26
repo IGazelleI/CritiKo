@@ -81,6 +81,7 @@ class AdminController extends Controller
                      $deans = User::select('departments.id', 'faculties.name')
                             -> join('faculties', 'users.id', 'faculties.user_id')
                             -> join('departments', 'faculties.department_id', 'departments.id')
+                            -> where('faculties.isDean', '=', true)
                             -> get();
                     $title = 'Deans';
         }
@@ -142,9 +143,23 @@ class AdminController extends Controller
     //assign dean form
     public function assignDean(Department $dept)
     {
+        $dean = Faculty::select('user_id')
+                    -> where('department_id', '=', $dept->id)
+                    -> where('isDean', '=', true)
+                    -> get();
+
+        if($dean->isEmpty())
+            $currentDean = 0;
+        else
+        {
+            foreach($dean as $d)
+                $currentDean = $d->user_id;
+        }
+
         return view('admin.assignDean', [
             'dept' => $dept,
-            'facs' => Faculty::select('id', 'name')
+            'currentDean' => $currentDean,
+            'facs' => Faculty::select('user_id', 'name')
                     -> where('department_id', '=', $dept->id)
                     -> get()
         ]);

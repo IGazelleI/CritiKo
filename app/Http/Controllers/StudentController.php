@@ -96,7 +96,7 @@ class StudentController extends Controller
 
         if($blocks->isEmpty())
         {
-            $instructor = Block::select('faculties.user_id as id', 'subjects.name as subject', 'faculties.name')
+            $instructor = Block::select('faculties.user_id as id', 'subjects.code as subject', 'faculties.name')
                             -> join('klases', 'blocks.id', 'klases.block_id')
                             -> join('subjects', 'klases.subject_id', 'subjects.id')
                             -> join('faculties', 'klases.user_id', 'faculties.user_id')
@@ -108,7 +108,7 @@ class StudentController extends Controller
             foreach($blocks as $block)
                 $block_id = $block->id;
 
-            $instructor = Block::select('faculties.user_id as id', 'subjects.name as subject', 'faculties.name')
+            $instructor = Block::select('faculties.user_id as id', 'subjects.code as subject', 'faculties.name')
                             -> join('klases', 'blocks.id', 'klases.block_id')
                             -> join('subjects', 'klases.subject_id', 'subjects.id')
                             -> join('faculties', 'klases.user_id', 'faculties.user_id')
@@ -126,6 +126,7 @@ class StudentController extends Controller
             'question' => Question::select('questions.id', 'q_types.id as typeID', 'q_types.name as type', 'q_categories.name as cat', 'questions.sentence', 'questions.keyword', 'q_categories.id as catID')
                                 -> join('q_types', 'questions.q_type_id', 'q_types.id')
                                 -> join('q_categories', 'questions.q_category_id', 'q_categories.id')
+                                -> orderBy('questions.q_type_id')
                                 -> orderBy('questions.q_category_id')
                                 -> where('questions.type',  '=', 4)
                                 -> get()

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Block;
 use App\Models\Course;
+use App\Models\Period;
 use App\Models\Faculty;
 use App\Models\Subject;
 use App\Models\Department;
@@ -77,10 +78,17 @@ class BlockController extends Controller
         $formFields = $request->validate([
             'course_id'  => 'required',
             'year_level' => 'required',
-            'section' => ['required', 'numeric'],
-            'user_id' => 'required'
+            'section' => ['required', 'numeric']
         ]);
-        
+
+        //get current semester
+        $semester = Period::select('id')
+                        -> latest('id')
+                        -> limit(1)
+                        -> get();
+        foreach($semester as $sems)
+            $formFields['period_id']= $sems->id;
+
         Block::create($formFields);
 
         return redirect('/block/manage/' . $request->course_id)->with('message', 'Block added.');
@@ -112,8 +120,7 @@ class BlockController extends Controller
         $formFields = $request->validate([
             'course_id' => 'required',
             'year_level' => 'required',
-            'section' => 'required',
-            'user_id' => 'required'
+            'section' => 'required'
         ]);
 
         $block->update($formFields);

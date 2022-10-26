@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
-            $table->integer('code');
+            $table->string('code');
             $table->string('name');
+            $table->integer('year_level')->nullable();
+            $table->integer('semester')->nullable();
             $table->timestamps();
         });
     }

@@ -107,7 +107,7 @@
                             @endphp
                             @else {{-- question type quality --}}
                             <tr class="border-gray-300">
-                                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg" colspan="6">
                                     <div class="mb-6">
                                         <label for="{{'qAns' . $qnum}}" class="inline-block text-lg mb-2">
                                             {{$q->sentence}}
